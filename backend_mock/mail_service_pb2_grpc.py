@@ -19,23 +19,12 @@ class MailingServiceStub(object):
                 request_serializer=mail__service__pb2.ScheduleRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.ScheduleResponse.FromString,
                 )
-        self.UpdateScheduleNotification = channel.unary_unary(
-                '/MailingService/UpdateScheduleNotification',
-                request_serializer=mail__service__pb2.UpdateScheduleNotificationRequest.SerializeToString,
-                response_deserializer=mail__service__pb2.UpdateScheduleNotificationResponse.FromString,
-                )
 
 
 class MailingServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def ScheduleNotification(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateScheduleNotification(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -48,11 +37,6 @@ def add_MailingServiceServicer_to_server(servicer, server):
                     servicer.ScheduleNotification,
                     request_deserializer=mail__service__pb2.ScheduleRequest.FromString,
                     response_serializer=mail__service__pb2.ScheduleResponse.SerializeToString,
-            ),
-            'UpdateScheduleNotification': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateScheduleNotification,
-                    request_deserializer=mail__service__pb2.UpdateScheduleNotificationRequest.FromString,
-                    response_serializer=mail__service__pb2.UpdateScheduleNotificationResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -81,23 +65,6 @@ class MailingService(object):
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
-    @staticmethod
-    def UpdateScheduleNotification(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/MailingService/UpdateScheduleNotification',
-            mail__service__pb2.UpdateScheduleNotificationRequest.SerializeToString,
-            mail__service__pb2.UpdateScheduleNotificationResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
 
 class BackendServiceStub(object):
     """Missing associated documentation comment in .proto file."""
@@ -113,12 +80,23 @@ class BackendServiceStub(object):
                 request_serializer=mail__service__pb2.NotificationInfoRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.NotificationInfoResponse.FromString,
                 )
+        self.UpdateNotificationStatus = channel.unary_unary(
+                '/BackendService/UpdateNotificationStatus',
+                request_serializer=mail__service__pb2.UpdateNotificationStatusRequest.SerializeToString,
+                response_deserializer=mail__service__pb2.UpdateNotificationStatusResponse.FromString,
+                )
 
 
 class BackendServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetFullNotificationInfo(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateNotificationStatus(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -131,6 +109,11 @@ def add_BackendServiceServicer_to_server(servicer, server):
                     servicer.GetFullNotificationInfo,
                     request_deserializer=mail__service__pb2.NotificationInfoRequest.FromString,
                     response_serializer=mail__service__pb2.NotificationInfoResponse.SerializeToString,
+            ),
+            'UpdateNotificationStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateNotificationStatus,
+                    request_deserializer=mail__service__pb2.UpdateNotificationStatusRequest.FromString,
+                    response_serializer=mail__service__pb2.UpdateNotificationStatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -156,5 +139,22 @@ class BackendService(object):
         return grpc.experimental.unary_unary(request, target, '/BackendService/GetFullNotificationInfo',
             mail__service__pb2.NotificationInfoRequest.SerializeToString,
             mail__service__pb2.NotificationInfoResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateNotificationStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/BackendService/UpdateNotificationStatus',
+            mail__service__pb2.UpdateNotificationStatusRequest.SerializeToString,
+            mail__service__pb2.UpdateNotificationStatusResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

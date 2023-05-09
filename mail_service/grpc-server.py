@@ -1,9 +1,9 @@
 from concurrent import futures
 
 import grpc
-
+import redis
 from mail_service_pb2 import ScheduleResponse
-
+# from producer import producer
 import mail_service_pb2_grpc
 
 class MailingService(
@@ -11,9 +11,16 @@ class MailingService(
 ):
 
     def ScheduleNotification(self, request, context):
-        
+        try:
+            r = redis.Redis(host='redis', port=6379)
+            r.set(request.notification_id, request.deadline)
+            print(request.notification_id, request.deadline)
+            status = 0
+        except Exception as e:
+            print(e)
+            status = 1
 
-        return ScheduleResponse(send_status = 228)
+        return ScheduleResponse(add_status = status)
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
