@@ -66,13 +66,19 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
 
-  test:
+  backend-mock:
+    container_name: backend_mock
+    build: backend_mock/
+    command: tail -F anything
+
+  mail_service:
     container_name: mail_service
     build: mail_service/
     # entrypoint: python redistest.py tail -F anything
     command: tail -F anything
     # python grpc-server.py && python producer.py
-    depends_on: [redis,broker]
+    depends_on: [redis,broker,backend-mock]
+
       
       
 

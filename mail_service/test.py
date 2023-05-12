@@ -2,27 +2,47 @@ import datetime
 import grpc
 import time
 from mail_service_pb2_grpc import MailingServiceStub
+from mail_service_pb2_grpc import BackendServiceStub
 from mail_service_pb2 import ScheduleRequest
-# from producer import producer
-# from consumer import consumer
-channel = grpc.insecure_channel("localhost:50051")
-client = MailingServiceStub(channel)
-curTime = int(datetime.datetime.now().timestamp())
-request1 = ScheduleRequest(notification_id=10, deadline=str(curTime))
-request11 = ScheduleRequest(notification_id=111, deadline=str(curTime))
-request111 = ScheduleRequest(notification_id=1111, deadline=str(curTime))
-request2 = ScheduleRequest(notification_id=11, deadline=str(curTime + 60))
-request3 = ScheduleRequest(notification_id=12, deadline=str(curTime + 120))
+from mail_service_pb2 import GetFullNotificationInfo
+from mail_service_pb2 import UpdateNotificationStatus
 
-client.ScheduleNotification(request1)
-client.ScheduleNotification(request11)
-client.ScheduleNotification(request111)
-client.ScheduleNotification(request1)
-client.ScheduleNotification(request1)
-client.ScheduleNotification(request1)
-client.ScheduleNotification(request2)
-client.ScheduleNotification(request2)
-client.ScheduleNotification(request2)
-client.ScheduleNotification(request3)
-client.ScheduleNotification(request3)
-client.ScheduleNotification(request3)
+channel = grpc.insecure_channel("localhost:50051")
+clientbackend = MailingServiceStub(channel)
+channel = grpc.insecure_channel("backend_mock:50052")
+clientmail_service = BackendServiceStub(channel)
+
+
+curTime = int(datetime.datetime.now().timestamp())
+
+
+request1 = ScheduleRequest(notification_id=1, deadline=str(curTime))
+request2 = ScheduleRequest(notification_id=2, deadline=str(curTime))
+request3 = ScheduleRequest(notification_id=3, deadline=str(curTime))
+request4 = ScheduleRequest(notification_id=4, deadline=str(curTime + 60))
+request5 = ScheduleRequest(notification_id=5, deadline=str(curTime + 120))
+request6 = ScheduleRequest(notification_id=6, deadline=str(curTime + 180))
+request7 = ScheduleRequest(notification_id=7, deadline=str(curTime + 180))
+request8 = ScheduleRequest(notification_id=8, deadline=str(curTime + 180))
+request9 = ScheduleRequest(notification_id=9, deadline=str(curTime + 240))
+request10 = ScheduleRequest(notification_id=10, deadline=str(curTime + 300))
+
+
+# back-end планирует 10 отправок писем с уведомлениями
+clientbackend.ScheduleNotification(request1)
+clientbackend.ScheduleNotification(request2)
+clientbackend.ScheduleNotification(request3)
+clientbackend.ScheduleNotification(request4)
+clientbackend.ScheduleNotification(request5)
+clientbackend.ScheduleNotification(request6)
+clientbackend.ScheduleNotification(request7)
+clientbackend.ScheduleNotification(request8)
+clientbackend.ScheduleNotification(request9)
+clientbackend.ScheduleNotification(request10)
+
+
+# back-end изменяет время отправки для 4 уведомления
+request4 = ScheduleRequest(notification_id=4, deadline=str(curTime + 120))
+clientbackend.ScheduleNotification(request4)
+
+# mail_service
