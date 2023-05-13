@@ -26,14 +26,18 @@ while True:
         if int(value) < curTime:
             print("producer sent")
             # vvjkee call
-            client.delete(key)
+
             producer.send(
                 "MailTopic",
                 value={
-                    "notification_id": key,
+                    "notification_id": int(key),
                     "time": str(datetime.datetime.now()),
                     "time_int": str(datetime.datetime.fromtimestamp(int(value))),
                 },
             )
+            client.delete(key)
     print("end")
     sleep(60 - (int(datetime.datetime.now().timestamp()) - curTime))
+
+# "time": str(datetime.datetime.now()),
+#                     "time_int": str(datetime.datetime.fromtimestamp(int(value))),

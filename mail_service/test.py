@@ -4,13 +4,12 @@ import time
 from mail_service_pb2_grpc import MailingServiceStub
 from mail_service_pb2_grpc import BackendServiceStub
 from mail_service_pb2 import ScheduleRequest
-from mail_service_pb2 import GetFullNotificationInfo
-from mail_service_pb2 import UpdateNotificationStatus
+from mail_service_pb2 import CancelNotificationRequest
 
 channel = grpc.insecure_channel("localhost:50051")
 clientbackend = MailingServiceStub(channel)
-channel = grpc.insecure_channel("backend_mock:50052")
-clientmail_service = BackendServiceStub(channel)
+# channel = grpc.insecure_channel("backend_mock:50052")
+# clientmail_service = BackendServiceStub(channel)
 
 
 curTime = int(datetime.datetime.now().timestamp())
@@ -46,3 +45,5 @@ request4 = ScheduleRequest(notification_id=4, deadline=str(curTime + 120))
 clientbackend.ScheduleNotification(request4)
 
 # mail_service
+requestcancel = CancelNotificationRequest(notification_id=10)
+clientbackend.CancelNotification(requestcancel)

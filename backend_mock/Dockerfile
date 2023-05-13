@@ -10,3 +10,4 @@ ADD mail_service_pb2.py /back_endfolder/
 
 WORKDIR /back_endfolder/
 RUN pip install --no-cache-dir -r requirements.txt
+# RUN python grpc-server-back.py

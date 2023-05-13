@@ -33,11 +33,18 @@ message UpdateNotificationStatusResponse {
     int32 send_status = 1;
 }
 
+message CancelNotificationRequest {
+    int32 notification_id = 1;
+}
+
+message CancelNotificationResponse {
+    int32 send_status = 1;
+}
 
 service MailingService {
     
     rpc ScheduleNotification (ScheduleRequest) returns (ScheduleResponse);
-    
+    rpc CancelNotification (CancelNotificationRequest) returns (CancelNotificationResponse);
     
 }
 

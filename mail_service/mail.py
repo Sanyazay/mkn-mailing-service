@@ -1,3 +1,4 @@
+import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from smtplib import SMTPException
@@ -33,6 +34,9 @@ def send_email(project_title, section_title, notification_title, description, em
 
 
 # now = datetime.datetime.now()
-# for i in range(5):
-#     send_email("1","2","3","desc", "d", "h34th3n777@gmail.com")
-# print (datetime.datetime.now() - now )
+# for i in range(2):
+#     send_email("1", "2", "3", "desc", "ScaredSnael3@mail.ru")
+# print(datetime.datetime.now() - now)
+
+
+# "h34th3n777@gmail.com"

@@ -19,12 +19,23 @@ class MailingServiceStub(object):
                 request_serializer=mail__service__pb2.ScheduleRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.ScheduleResponse.FromString,
                 )
+        self.CancelNotification = channel.unary_unary(
+                '/MailingService/CancelNotification',
+                request_serializer=mail__service__pb2.CancelNotificationRequest.SerializeToString,
+                response_deserializer=mail__service__pb2.CancelNotificationResponse.FromString,
+                )
 
 
 class MailingServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def ScheduleNotification(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CancelNotification(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +48,11 @@ def add_MailingServiceServicer_to_server(servicer, server):
                     servicer.ScheduleNotification,
                     request_deserializer=mail__service__pb2.ScheduleRequest.FromString,
                     response_serializer=mail__service__pb2.ScheduleResponse.SerializeToString,
+            ),
+            'CancelNotification': grpc.unary_unary_rpc_method_handler(
+                    servicer.CancelNotification,
+                    request_deserializer=mail__service__pb2.CancelNotificationRequest.FromString,
+                    response_serializer=mail__service__pb2.CancelNotificationResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,6 +78,23 @@ class MailingService(object):
         return grpc.experimental.unary_unary(request, target, '/MailingService/ScheduleNotification',
             mail__service__pb2.ScheduleRequest.SerializeToString,
             mail__service__pb2.ScheduleResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CancelNotification(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/MailingService/CancelNotification',
+            mail__service__pb2.CancelNotificationRequest.SerializeToString,
+            mail__service__pb2.CancelNotificationResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
