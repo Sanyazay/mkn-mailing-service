@@ -10,7 +10,7 @@ producer = KafkaProducer(
 )
 
 
-while True:
+def poll_redis():
     print("start")
     curTime = int(datetime.datetime.now().timestamp())
     client = redis.StrictRedis(host="redis", port=6379, decode_responses=True)
@@ -39,5 +39,8 @@ while True:
     print("end")
     sleep(60 - (int(datetime.datetime.now().timestamp()) - curTime))
 
+
+while True:
+    poll_redis()
 # "time": str(datetime.datetime.now()),
 #                     "time_int": str(datetime.datetime.fromtimestamp(int(value))),

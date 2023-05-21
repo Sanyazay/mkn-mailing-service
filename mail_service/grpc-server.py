@@ -15,6 +15,8 @@ class MailingService(mail_service_pb2_grpc.MailingServiceServicer):
             r = redis.Redis(host="redis", port=6379)
             r.set(request.notification_id, request.deadline)
             print(request.notification_id, request.deadline)
+            f = open("mail_logs.txt", "w")
+            f.write("dsaadsdas")
             status = 0
         except Exception as e:
             print(e)

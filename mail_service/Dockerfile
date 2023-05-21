@@ -4,7 +4,9 @@ RUN apt-get update && apt-get install python3-pip -y && pip install --upgrade pi
 
 ADD requirements.txt /mailfolder/
 ADD grpc-server.py /mailfolder/
+ADD start.sh /mailfolder/
 ADD mail.py /mailfolder/
+ADD mail_logs.txt /mailfolder/
 ADD mail_service_pb2_grpc.py /mailfolder/
 ADD mail_service_pb2.py /mailfolder/
 ADD test.py /mailfolder/

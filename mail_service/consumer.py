@@ -32,24 +32,26 @@ for message in consumer:
     print(note_info)
     print("sent message with id" + str(message["notification_id"]))
     # send message
-    # try:
-    #     for i in note_info.email:
-    #         mail.send_email(
-    #             project_title=note_info.project_title,
-    #             section_title=note_info.section_title,
-    #             notification_title=note_info.notification_title,
-    #             description=note_info.description,
-    #             email=i,
-    #         )
-    #     clientmail_service.UpdateNotificationInfo(
-    #         UpdateNotificationStatusRequest(
-    #             notification_id=message["notification_id"], send_status=0
-    #         )
-    #     )
+    try:
+        for i in note_info.email:
+            mail.send_email(
+                project_title=note_info.project_title,
+                section_title=note_info.section_title,
+                notification_title=note_info.notification_title,
+                description=note_info.description,
+                email=i,
+            )
+        clientmail_service.UpdateNotificationInfo(
+            UpdateNotificationStatusRequest(
+                notification_id=message["notification_id"], send_status=0
+            )
+        )
+        f = open("mail_logs.txt", "w")
+        f.write("sent message with id" + str(message["notification_id"]))
 
-    # except Exception as e:
-    #     clientmail_service.UpdateNotificationStatus(
-    #         UpdateNotificationStatusRequest(
-    #             notification_id=message["notification_id"], send_status=1
-    #         )
-    #     )
+    except Exception as e:
+        clientmail_service.UpdateNotificationStatus(
+            UpdateNotificationStatusRequest(
+                notification_id=message["notification_id"], send_status=1
+            )
+        )
