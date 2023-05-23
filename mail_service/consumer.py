@@ -21,7 +21,7 @@ consumer = KafkaConsumer(
 
 for message in consumer:
     print("icancatch")
-    channel = grpc.insecure_channel("backend_mock:50051")
+    channel = grpc.insecure_channel("backend:50051")
     clientmail_service = BackendServiceStub(channel)
     message = message.value
     print(message)

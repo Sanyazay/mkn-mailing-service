@@ -15,12 +15,12 @@ class MailingServiceStub(object):
             channel: A grpc.Channel.
         """
         self.ScheduleNotification = channel.unary_unary(
-                '/MailingService/ScheduleNotification',
+                '/grpcApi.MailingService/ScheduleNotification',
                 request_serializer=mail__service__pb2.ScheduleRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.ScheduleResponse.FromString,
                 )
         self.CancelNotification = channel.unary_unary(
-                '/MailingService/CancelNotification',
+                '/grpcApi.MailingService/CancelNotification',
                 request_serializer=mail__service__pb2.CancelNotificationRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.CancelNotificationResponse.FromString,
                 )
@@ -56,7 +56,7 @@ def add_MailingServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'MailingService', rpc_method_handlers)
+            'grpcApi.MailingService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -75,7 +75,7 @@ class MailingService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/MailingService/ScheduleNotification',
+        return grpc.experimental.unary_unary(request, target, '/grpcApi.MailingService/ScheduleNotification',
             mail__service__pb2.ScheduleRequest.SerializeToString,
             mail__service__pb2.ScheduleResponse.FromString,
             options, channel_credentials,
@@ -92,7 +92,7 @@ class MailingService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/MailingService/CancelNotification',
+        return grpc.experimental.unary_unary(request, target, '/grpcApi.MailingService/CancelNotification',
             mail__service__pb2.CancelNotificationRequest.SerializeToString,
             mail__service__pb2.CancelNotificationResponse.FromString,
             options, channel_credentials,
@@ -109,12 +109,12 @@ class BackendServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetFullNotificationInfo = channel.unary_unary(
-                '/BackendService/GetFullNotificationInfo',
+                '/grpcApi.BackendService/GetFullNotificationInfo',
                 request_serializer=mail__service__pb2.NotificationInfoRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.NotificationInfoResponse.FromString,
                 )
         self.UpdateNotificationStatus = channel.unary_unary(
-                '/BackendService/UpdateNotificationStatus',
+                '/grpcApi.BackendService/UpdateNotificationStatus',
                 request_serializer=mail__service__pb2.UpdateNotificationStatusRequest.SerializeToString,
                 response_deserializer=mail__service__pb2.UpdateNotificationStatusResponse.FromString,
                 )
@@ -150,7 +150,7 @@ def add_BackendServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'BackendService', rpc_method_handlers)
+            'grpcApi.BackendService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -169,7 +169,7 @@ class BackendService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/BackendService/GetFullNotificationInfo',
+        return grpc.experimental.unary_unary(request, target, '/grpcApi.BackendService/GetFullNotificationInfo',
             mail__service__pb2.NotificationInfoRequest.SerializeToString,
             mail__service__pb2.NotificationInfoResponse.FromString,
             options, channel_credentials,
@@ -186,7 +186,7 @@ class BackendService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/BackendService/UpdateNotificationStatus',
+        return grpc.experimental.unary_unary(request, target, '/grpcApi.BackendService/UpdateNotificationStatus',
             mail__service__pb2.UpdateNotificationStatusRequest.SerializeToString,
             mail__service__pb2.UpdateNotificationStatusResponse.FromString,
             options, channel_credentials,

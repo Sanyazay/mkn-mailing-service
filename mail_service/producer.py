@@ -13,7 +13,7 @@ producer = KafkaProducer(
 def poll_redis():
     print("start")
     curTime = int(datetime.datetime.now().timestamp())
-    client = redis.StrictRedis(host="redis", port=6379, decode_responses=True)
+    client = redis.StrictRedis(host="redis", port=6377, decode_responses=True)
     data = {}
     cursor = "0"
     while cursor != 0:
@@ -30,7 +30,7 @@ def poll_redis():
             producer.send(
                 "MailTopic",
                 value={
-                    "notification_id": int(key),
+                    "notification_id": key,
                     "time": str(datetime.datetime.now()),
                     "time_int": str(datetime.datetime.fromtimestamp(int(value))),
                 },

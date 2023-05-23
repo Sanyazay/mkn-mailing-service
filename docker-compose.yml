@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.8'
 networks:
   mynetwork:
     
@@ -70,24 +70,6 @@ services:
   #     - auto.create.topics.enable=true
   #   depends_on:
   #     - zookeeper
-  redis:
-    container_name: redis
-    image: "redis:6.0-alpine"
-    restart: always
-    # entrypoint: redis-server
-    command: redis-server /usr/local/etc/redis/redis.conf
-    # networks:
-    #   - mynetwork
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/var/lib/redis
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    # environment:
-    #   - REDIS_HOST=redis
-    #   - REDIS_PORT=6379
   backendredis:
     container_name: backendredis
     image: "redis:6.0-alpine"
@@ -97,10 +79,28 @@ services:
     # networks:
     #   - mynetwork
     ports:
-      - "6377:6377"
+      - "6379:6379"
     volumes:
       - backendredis-data:/var/lib/redis
       - ./backend_redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    # environment:
+    #   - REDIS_HOST=redis
+    #   - REDIS_PORT=6379
+  redis:
+    container_name: redis
+    image: "redis:6.0-alpine"
+    restart: always
+    # entrypoint: redis-server
+    command: redis-server /usr/local/etc/redis/redis.conf
+    # networks:
+    #   - mynetwork
+    ports:
+      - "6377:6377"
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       
@@ -108,10 +108,10 @@ services:
     #   - REDIS_HOST=backendredis
     #   - REDIS_PORT=6377
 
-  backend-mock:
-    container_name: backend_mock
-    build: backend_mock/
-    command: python grpc-server-back.py &
+  # backend-mock:
+  #   container_name: backend_mock
+  #   build: backend_mock/
+  #   command: python grpc-server-back.py &
 
   mail_service:
     container_name: mail_service
@@ -121,10 +121,34 @@ services:
     # python grpc-server.py && python producer.py
     depends_on: [redis,broker]
 
-      
+  app:
+    container_name: backend
+    build: ./backend/
+    command: ./bin/main
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - backendredis
+  db:
+    container_name: postgresql
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=mknAdmin
+      - POSTGRES_DB=mknDb
+      - POSTGRES_PASSWORD=mamatKunem
+      - DB_EXTENSION=uuid-ossp
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+
 volumes:
   redis-data:
   backendredis-data:
+  db:
+    driver: local
 # broker:
 #     image: wurstmeister/kafka
 #     container_name: broker

@@ -12,7 +12,7 @@ import mail_service_pb2_grpc
 class MailingService(mail_service_pb2_grpc.MailingServiceServicer):
     def ScheduleNotification(self, request, context):
         try:
-            r = redis.Redis(host="redis", port=6379)
+            r = redis.Redis(host="redis", port=6377)
             r.set(request.notification_id, request.deadline)
             print(request.notification_id, request.deadline)
             f = open("mail_logs.txt", "w")
@@ -26,7 +26,7 @@ class MailingService(mail_service_pb2_grpc.MailingServiceServicer):
 
     def CancelNotification(self, request, context):
         try:
-            r = redis.Redis(host="redis", port=6379)
+            r = redis.Redis(host="redis", port=6377)
             r.delete(request.notification_id)
             print(str(request.notification_id) + "has been deleted")
             status = 0

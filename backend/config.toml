@@ -1,0 +1,6 @@
+[database]
+db_host = "db"
+db_name = "mknDb"
+db_user = "mknAdmin"
+db_password = "mamatKunem"
+db_port = "5432"
